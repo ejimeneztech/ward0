@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -11,84 +9,70 @@ class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
 class UInputAction;
+class UInputMappingContext;
 struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-/**
- *  A basic first person character
- */
 UCLASS(abstract)
 class Award0Character : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	/** Pawn mesh: first person view (arms; seen only by self) */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* FirstPersonMesh;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
+    USkeletalMeshComponent* FirstPersonMesh;
 
-	/** First person camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FirstPersonCameraComponent;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta=(AllowPrivateAccess="true"))
+    UCameraComponent* FirstPersonCameraComponent;
 
 protected:
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputAction* JumpAction;
 
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, Category ="Input")
-	UInputAction* JumpAction;
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputAction* MoveAction;
 
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, Category ="Input")
-	UInputAction* MoveAction;
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputAction* LookAction;
 
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, Category ="Input")
-	class UInputAction* LookAction;
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputAction* MouseLookAction;
 
-	/** Mouse Look Input Action */
-	UPROPERTY(EditAnywhere, Category ="Input")
-	class UInputAction* MouseLookAction;
-	
-public:
-	Award0Character();
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputAction* InteractAction;
 
-protected:
+    UPROPERTY(EditAnywhere, Category="Input")
+    UInputMappingContext* DefaultMappingContext;
 
-	/** Called from Input Actions for movement input */
-	void MoveInput(const FInputActionValue& Value);
-
-	/** Called from Input Actions for looking input */
-	void LookInput(const FInputActionValue& Value);
-
-	/** Handles aim inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoAim(float Yaw, float Pitch);
-
-	/** Handles move inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoMove(float Right, float Forward);
-
-	/** Handles jump start inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoJumpStart();
-
-	/** Handles jump end inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoJumpEnd();
-
-protected:
-
-	/** Set up input action bindings */
-	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-	
+    UPROPERTY(EditAnywhere, Category="Interaction")
+    float InteractionRange = 500.0f;
 
 public:
+    Award0Character();
 
-	/** Returns the first person mesh **/
-	USkeletalMeshComponent* GetFirstPersonMesh() const { return FirstPersonMesh; }
+protected:
+    virtual void BeginPlay() override;
 
-	/** Returns first person camera component **/
-	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+    void MoveInput(const FInputActionValue& Value);
+    void LookInput(const FInputActionValue& Value);
+    void Interact();
+    void PerformInteractionTrace();
 
+    UFUNCTION(BlueprintCallable, Category="Input")
+    virtual void DoAim(float Yaw, float Pitch);
+
+    UFUNCTION(BlueprintCallable, Category="Input")
+    virtual void DoMove(float Right, float Forward);
+
+    UFUNCTION(BlueprintCallable, Category="Input")
+    virtual void DoJumpStart();
+
+    UFUNCTION(BlueprintCallable, Category="Input")
+    virtual void DoJumpEnd();
+
+    virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
+
+public:
+    USkeletalMeshComponent* GetFirstPersonMesh() const { return FirstPersonMesh; }
+    UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 };
-
