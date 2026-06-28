@@ -1,4 +1,6 @@
 #include "Door.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/Engine.h"
 #include "GameFramework/Character.h"
 
 ADoor::ADoor()
@@ -29,7 +31,12 @@ void ADoor::Interact_Implementation(ACharacter* Interactor)
 
 	if (bIsOpen)
 	{
-		TargetRotation = StartRotation + FRotator(0.f, OpenAngle, 0.f);
+		FVector DoorToPlayer = Interactor->GetActorLocation() - GetActorLocation();
+		FVector DoorForward = GetActorForwardVector();
+		float DotProduct = FVector::DotProduct(DoorForward, DoorToPlayer);
+		float Direction = DotProduct > 0 ? -1.0f : 1.0f;
+
+		TargetRotation = StartRotation + FRotator(0.f, OpenAngle * Direction, 0.f);
 	}
 	else
 	{
