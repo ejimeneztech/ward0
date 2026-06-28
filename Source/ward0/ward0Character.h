@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "InventorySystem/Public/InventoryComponent.h"
 #include "ward0Character.generated.h"
 
 class UInputComponent;
@@ -46,6 +47,9 @@ protected:
 
     UPROPERTY(EditAnywhere, Category="Interaction")
     float InteractionRange = 500.0f;
+    
+    UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category="Inventory")
+    UInventoryComponent* InventoryComponent;
 
 public:
     Award0Character();

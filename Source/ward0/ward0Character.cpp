@@ -32,6 +32,8 @@ Award0Character::Award0Character()
     FirstPersonCameraComponent->bEnableFirstPersonScale = true;
     FirstPersonCameraComponent->FirstPersonFieldOfView = 70.0f;
     FirstPersonCameraComponent->FirstPersonScale = 0.6f;
+    
+    InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
     GetMesh()->SetOwnerNoSee(true);
     GetMesh()->FirstPersonPrimitiveType = EFirstPersonPrimitiveType::WorldSpaceRepresentation;
@@ -39,6 +41,9 @@ Award0Character::Award0Character()
 
     GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
     GetCharacterMovement()->AirControl = 0.5f;
+    
+    
+    
 }
 
 void Award0Character::BeginPlay()

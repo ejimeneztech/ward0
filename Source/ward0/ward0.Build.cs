@@ -18,7 +18,8 @@ public class ward0 : ModuleRules
 			"StateTreeModule",
 			"GameplayStateTreeModule",
 			"UMG",
-			"Slate"
+			"Slate",
+			"InventorySystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
