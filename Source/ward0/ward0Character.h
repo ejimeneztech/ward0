@@ -41,6 +41,9 @@ protected:
 
     UPROPERTY(EditAnywhere, Category="Input")
     UInputAction* InteractAction;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input", meta=(AllowPrivateAccess="true"))
+    UInputAction* InventoryAction;
 
     UPROPERTY(EditAnywhere, Category="Input")
     UInputMappingContext* DefaultMappingContext;
@@ -50,6 +53,8 @@ protected:
     
     UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category="Inventory")
     UInventoryComponent* InventoryComponent;
+    
+   
 
 public:
     Award0Character();
@@ -61,6 +66,7 @@ protected:
     void LookInput(const FInputActionValue& Value);
     void Interact();
     void PerformInteractionTrace();
+    void ToggleInventory();
 
     UFUNCTION(BlueprintCallable, Category="Input")
     virtual void DoAim(float Yaw, float Pitch);

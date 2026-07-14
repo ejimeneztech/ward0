@@ -10,6 +10,7 @@
 #include "Interactable.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/LocalPlayer.h"
+#include "Engine/Engine.h"
 #include "ward0.h"
 
 Award0Character::Award0Character()
@@ -70,6 +71,7 @@ void Award0Character::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
         EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &Award0Character::LookInput);
         EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &Award0Character::LookInput);
         EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &Award0Character::Interact);
+        EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Started, this, &Award0Character::ToggleInventory);
     }
     else
     {
@@ -120,6 +122,11 @@ void Award0Character::DoJumpEnd()
 void Award0Character::Interact()
 {
     PerformInteractionTrace();
+}
+
+void Award0Character::ToggleInventory()
+{
+    if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Inventory toggled"));
 }
 
 void Award0Character::PerformInteractionTrace()
